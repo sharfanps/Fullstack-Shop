@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like2Shop</title>
+</head>
+<body>
+     <div class="login-container">
+         <div class="login-card">
+     <div class="Welcome-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your account</p>
+    </div>
+    <form class="login-form" [formGroup]="signUpForm" id="loginForm" (ngSubmit)="onSubmit()" >
+                <div class="form-group">
+                    <div class="input-wrapper">
+                       
+                        <input type="email" id="email" formControlName="email" required autocomplete="email">
+                        <label for="email">Email</label>
+                        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+      <div *ngIf="email?.errors?.['required']">Email is required.</div>
+      <div *ngIf="email?.errors?.['email']">Invalid email format.</div>
+    </div>
+                        <span class="focus-border"></span>
+                    </div>
+                    <!-- <span class="error-message" id="emailError"></span> -->
+                </div>
+                    <div class="form-group">
+                    <div class="input-wrapper password-wrapper">
+                        <input type="password" id="password" formControlName="password" required autocomplete="current-password">
+                        <label for="password">Password</label>
+                        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+      <div *ngIf="password?.errors?.['required']">password is required.</div>
+      <div *ngIf="password?.errors?.['minlength']">password must be 6 characters.</div>
+    </div>
+                        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                            <span class="eye-icon"></span>
+                        </button>
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="input-wrapper password-wrapper">
+                        <input type="password" id="reEnterPassword" formControlName="reEnterPassword" required autocomplete="current-password">
+                        <label for="reEnterPassword">Re-enter Password</label>
+                        <div *ngIf="rePassword?.invalid && (rePassword?.dirty || rePassword?.touched)">
+      <div *ngIf="rePassword?.errors?.['required']">password is required.</div>
+      <div *ngIf="rePassword?.errors?.['minlength']">password must be 6 characters.</div>
+      <div *ngIf="rePassword?.errors?.['mustMatch']">Passwords must match.</div>
+    </div>
+                        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                            <span class="eye-icon"></span>
+                        </button>
+                        <span class="focus-border"></span>
+                    </div>
+                    <!-- <span class="error-message" id="passwordError"></span> -->
+                </div>
+                   <button type="submit" class="login-btn btn">
+                    <span class="btn-text">Sign In</span>
+                    <span class="btn-loader"></span>
+                </button>
+                </form>
+                </div></div>
+</body>
+</html>
