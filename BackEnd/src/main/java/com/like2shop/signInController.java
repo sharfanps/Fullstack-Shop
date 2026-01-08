@@ -1,6 +1,7 @@
 package com.like2shop;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Clock;
@@ -8,11 +9,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:5174")
 public class signInController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @PostMapping("/signup")
     public Map<String,String> signup(@RequestBody SignIn dto) {
 
@@ -24,7 +27,7 @@ public class signInController {
 
         signInModel user=new signInModel();
         user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         
         userRepository.save(user);
 
