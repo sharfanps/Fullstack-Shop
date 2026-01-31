@@ -20,7 +20,7 @@ public class signInController {
     public Map<String,String> signup(@RequestBody SignIn dto) {
 
         // Check if email already exists
-        System.out.println("Reached Controller"+dto);
+
         if (userRepository.findByEmail(dto.getEmail()) != null) {
             return Map.of("message","Email already in use");
         }
@@ -32,5 +32,20 @@ public class signInController {
         userRepository.save(user);
 
         return Map.of("message","User registered successfully");
+    }
+    @PostMapping("/login")
+    public Map<String,String> login(@RequestBody SignIn dto){
+        System.out.println("Reached login Controller"+dto);
+        signInModel user=userRepository.findByEmail(dto.getEmail());
+        if (user==null)
+        {
+            return Map.of("error","User Not Found");
+        }
+        if(!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
+        {
+            return Map.of("error","Invalid Password");
+        }
+        return Map.of("Token","Login Success");
+
     }
 }

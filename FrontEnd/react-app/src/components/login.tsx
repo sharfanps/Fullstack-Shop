@@ -1,24 +1,20 @@
 import { useState } from "react";
 import "./login.css"; 
-import { registerUser } from "../services/shop_service";
+import { loginUser } from "../services/shop_service";
 
 const initialForm = {
   email: "",
-  password: "",
-  reEnterPassword: "",
+  password: ""
 };
-
 type FormErrors = {
   email?: string,
-  password?: string,
-  reEnterPassword?: string,
+  password?: string
 };
-export default function Signup() {
+export default function Login() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-
-  const validate = () => {
+ const validate = () => {
     const newErrors:FormErrors = {};
 
     // Email
@@ -35,48 +31,47 @@ export default function Signup() {
       newErrors.password = "Password must be at least 6 characters.";
     }
 
-    // Re-enter password
-    if (!form.reEnterPassword) {
-      newErrors.reEnterPassword = "Password is required.";
-    } else if (form.password !== form.reEnterPassword) {
-      newErrors.reEnterPassword = "Passwords must match.";
-    }
-
     return newErrors;
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitted(true);
-
-    const validationErrors = validate();
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      const user = {
-        email: form.email,
-        password: form.password,
+        setForm({ ...form, [e.target.name]: e.target.value });
       };
-
-      console.log("User values:", JSON.stringify(user));
-
-      try {
-       await registerUser({
-        email:form.email,
-        password:form.password
-       });
-        alert("Registration successful");
-      } catch (error) {
-        console.error("Registration failed:", error);
-      }
-    } else {
-      console.log("Form is invalid");
-    }
-  };
+    
+      const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setSubmitted(true);
+    
+        const validationErrors = validate();
+        setErrors(validationErrors);
+    
+        if (Object.keys(validationErrors).length === 0) {
+          const user = {
+            email: form.email,
+            password: form.password,
+          };
+    
+          console.log("User values:", JSON.stringify(user));
+          try {
+           const result=await loginUser({
+            email:form.email,
+            password:form.password
+           });
+           if(!result.error)
+           {
+            alert("Login success"); 
+            localStorage.setItem("token", result.token);
+           return ;
+           }
+           alert("login failed");
+          
+           
+          } catch (error) {
+            console.error("Login failed:", error);
+          }
+        } else {
+          console.log("Form is invalid");
+        }
+      };
 
   return (
     <div className="login-container">
@@ -120,30 +115,6 @@ export default function Signup() {
 
               {submitted && errors.password && (
                 <span className="error-message show">{errors.password}</span>
-              )}
-
-              <button type="button" className="password-toggle">
-                <span className="eye-icon"></span>
-              </button>
-              <span className="focus-border"></span>
-            </div>
-          </div>
-
-          {/* Re-enter Password */}
-          <div className={`form-group ${errors.reEnterPassword ? "error" : ""}`}>
-            <div className="input-wrapper password-wrapper">
-              <input
-                type="password"
-                name="reEnterPassword"
-                value={form.reEnterPassword}
-                onChange={handleChange}
-              />
-              <label>Re-enter Password</label>
-
-              {submitted && errors.reEnterPassword && (
-                <span className="error-message show">
-                  {errors.reEnterPassword}
-                </span>
               )}
 
               <button type="button" className="password-toggle">
