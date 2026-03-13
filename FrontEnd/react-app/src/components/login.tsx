@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./login.css"; 
 import { loginUser } from "../services/shop_service";
+import { Link, useNavigate } from 'react-router-dom';
 
 const initialForm = {
   email: "",
@@ -10,7 +11,9 @@ type FormErrors = {
   email?: string,
   password?: string
 };
+
 export default function Login() {
+  const navigate=useNavigate();
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -56,13 +59,17 @@ export default function Login() {
             email:form.email,
             password:form.password
            });
-           if(!result.error)
+           if(result.token)
            {
             alert("Login success"); 
+            console.log("reult : ",result);
+            console.log("result.Token:", result.token);
             localStorage.setItem("token", result.token);
+            navigate("/productList");
            return ;
            }
-           alert("login failed");
+           else
+           alert("Something went wrong");
           
            
           } catch (error) {
@@ -128,6 +135,9 @@ export default function Login() {
             <span className="btn-text">Sign In</span>
             <span className="btn-loader"></span>
           </button>
+           <nav>
+          <Link to="/Signup">Click Here for SignUp</Link>
+          </nav>
         </form>
       </div>
     </div>

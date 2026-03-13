@@ -1,21 +1,29 @@
 package com.like2shop;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Clock;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
-//@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 public class signInController {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+
+    public signInController(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
     @PostMapping("/signup")
     public Map<String,String> signup(@RequestBody SignIn dto) {
 
@@ -37,6 +45,8 @@ public class signInController {
     public Map<String,String> login(@RequestBody SignIn dto){
         System.out.println("Reached login Controller"+dto);
         signInModel user=userRepository.findByEmail(dto.getEmail());
+        String Token=jwtUtil.generateToken(dto.getEmail());
+        System.out.println("token in  controller login : "+Token);
         if (user==null)
         {
             return Map.of("error","User Not Found");
@@ -45,7 +55,8 @@ public class signInController {
         {
             return Map.of("error","Invalid Password");
         }
-        return Map.of("Token","Login Success");
+        return Map.of("token",Token);
 
     }
+
 }

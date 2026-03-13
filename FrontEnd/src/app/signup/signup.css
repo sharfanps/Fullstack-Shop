@@ -142,7 +142,7 @@ body {
     line-height: 1.6;
 }
 
-.eye-icon {
+/* .eye-icon {
     display: block;
     width: 20px;
     height: 20px;
@@ -151,7 +151,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     transition: background-image 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+} */
 /* Error States */
 .error-message {
     display: block;

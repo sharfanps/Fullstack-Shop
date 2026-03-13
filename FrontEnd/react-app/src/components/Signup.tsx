@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./login.css"; 
 import { registerUser } from "../services/shop_service";
+import { Link } from "react-router-dom";
 
 const initialForm = {
   email: "",
@@ -157,6 +158,7 @@ export default function Signup() {
             <span className="btn-text">Sign In</span>
             <span className="btn-loader"></span>
           </button>
+          <Link to="/">Click here to Login</Link>
         </form>
       </div>
     </div>

@@ -22,7 +22,7 @@
       <div *ngIf="email?.errors?.['required']">Email is required.</div>
       <div *ngIf="email?.errors?.['email']">Invalid email format.</div>
     </div>
-                        <span class="focus-border"></span>
+                        <!-- <span class="focus-border"></span> -->
                     </div>
                     <!-- <span class="error-message" id="emailError"></span> -->
                 </div>
@@ -34,10 +34,10 @@
       <div *ngIf="password?.errors?.['required']">password is required.</div>
       <div *ngIf="password?.errors?.['minlength']">password must be 6 characters.</div>
     </div>
-                        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                        <!-- <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
                             <span class="eye-icon"></span>
-                        </button>
-                        <span class="focus-border"></span>
+                        </button> -->
+                        <!-- <span class="focus-border"></span> -->
                     </div>
                     <div class="input-wrapper password-wrapper">
                         <input type="password" id="reEnterPassword" formControlName="reEnterPassword" required autocomplete="current-password">
@@ -47,10 +47,10 @@
       <div *ngIf="rePassword?.errors?.['minlength']">password must be 6 characters.</div>
       <div *ngIf="rePassword?.errors?.['mustMatch']">Passwords must match.</div>
     </div>
-                        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                        <!-- <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
                             <span class="eye-icon"></span>
-                        </button>
-                        <span class="focus-border"></span>
+                        </button> -->
+                        <!-- <span class="focus-border"></span> -->
                     </div>
                     <!-- <span class="error-message" id="passwordError"></span> -->
                 </div>
