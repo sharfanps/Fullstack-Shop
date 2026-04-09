@@ -62,10 +62,8 @@ export default function Login() {
            if(result.token)
            {
             alert("Login success"); 
-            console.log("reult : ",result);
-            console.log("result.Token:", result.token);
             localStorage.setItem("token", result.token);
-            navigate("/productList");
+             navigate("/productList");
            return ;
            }
            else

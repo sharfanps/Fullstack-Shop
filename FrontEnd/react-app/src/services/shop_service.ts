@@ -21,4 +21,14 @@ export const loginUser=async(user: SignupModel):Promise<loginResponse>=>{
   console.log("resp : "+JSON.stringify(response.data));
   return response.data;
 }
+
+  export const logout=async()=>{
+
+    try{
+      const res=await axios.post(`${API_BASE_URL}/logout`);
+      return res.data;
+    }catch(error){
+
+    }
+  }
   
