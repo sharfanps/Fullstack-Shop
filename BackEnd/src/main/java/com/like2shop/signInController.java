@@ -58,5 +58,9 @@ public class signInController {
         return Map.of("token",Token);
 
     }
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout() {
+        return ResponseEntity.ok("Logged out successfully");
+    }
 
 }

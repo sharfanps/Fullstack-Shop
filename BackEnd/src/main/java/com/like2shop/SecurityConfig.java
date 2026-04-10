@@ -1,9 +1,11 @@
 package com.like2shop;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -35,14 +37,23 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                                .anyRequest().permitAll()
-//                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                        .requestMatchers("/api/auth/**").permitAll()
-//                        .requestMatchers("/api/products/**").authenticated()
-//                        .anyRequest().authenticated()
-                );
-//         .addFilterBefore(jwtAuthenticationFilter,
-//                UsernamePasswordAuthenticationFilter.class);
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/products/**").authenticated()
+                        .anyRequest().authenticated()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/api/auth/logout")
+                        .addLogoutHandler((request, response, authentication) -> {
+                            // Manually clear the security context on the server thread
+                            SecurityContextHolder.clearContext();
+                        })
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        })
+                )
+         .addFilterBefore(jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -59,4 +70,5 @@ public class SecurityConfig {
             source.registerCorsConfiguration("/**", configuration);
             return source;
         }
+
     }

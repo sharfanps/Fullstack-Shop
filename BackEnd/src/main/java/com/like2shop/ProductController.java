@@ -1,12 +1,12 @@
 package com.like2shop;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,17 +19,19 @@ public class ProductController {
     @Autowired
     private  ProductRepository productRepository;
         @GetMapping("/getList")
-        public ResponseEntity<List<ProductModel>> getList(){
+        public Page<ProductModel> getList(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "5") int size)
+        {
             try {
-                List<ProductModel> responses = new ArrayList<>();
-                responses=productRepository.findAll();
-                System.out.println("pro List responses: "+responses);
-                return ResponseEntity.ok(responses);
+                Pageable pageable = PageRequest.of(page, size);
+                Page<ProductModel> responses= productRepository.findAll(pageable);
+                System.out.println("pro List responses: " + responses.getContent());
+                return responses;
             } catch (Exception e) {
-                return ResponseEntity
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(Collections.emptyList());
+                return Page.empty();
             }
         }
+
+
 
 }
