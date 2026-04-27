@@ -22,7 +22,7 @@ const Navbar = () => {
     } finally {
       localStorage.removeItem("token");
       console.log("Logged out successfully");
-      navigate("/login");
+      navigate("/");
     }
 }
 
