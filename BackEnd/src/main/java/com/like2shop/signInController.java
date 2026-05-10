@@ -11,7 +11,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins ={"http://localhost:5173","https://like2shop.netlify.app"}) 
+@CrossOrigin(origins ={"http://localhost:5173","https://ecommerce-react-springboot-production.up.railway.app"})
 public class signInController {
 
     @Autowired

@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin(origins ={"http://localhost:5173","https://like2shop.netlify.app"})
+@CrossOrigin(origins ={"http://localhost:5173","https://ecommerce-react-springboot-production.up.railway.app"})
 public class ProductController {
 
     @Autowired
