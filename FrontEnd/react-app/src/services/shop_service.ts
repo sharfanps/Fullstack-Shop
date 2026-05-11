@@ -8,7 +8,8 @@ export interface SignupModel {
 }
 
 
-const API_BASE_URL = "api/auth";
+//const API_BASE_URL = "api/auth";
+ const API_BASE_URL = "https://ecommerce-react-springboot-production.up.railway.app/api/auth";
 
 export const registerUser = async (user: SignupModel) => {
   const response = await axios.post(`${API_BASE_URL}/signup`, user);
